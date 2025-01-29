@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,4 +21,7 @@ public class AuthorEntity {
     private Long id;
     private String name;
     private Integer age;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL,fetch = FetchType.LAZY) /*  failed to lazily initialize a collection of role in test */
+    private List<BookEntity> books;
 }

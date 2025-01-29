@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+#todo should be added to .gitignore
+#application-prod.yml

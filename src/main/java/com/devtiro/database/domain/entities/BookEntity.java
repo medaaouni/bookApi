@@ -18,7 +18,7 @@ public class BookEntity {
     @Id
     private String isbn;
     private String title;
-    @ManyToOne(cascade = CascadeType.ALL) /*This means that any operation (like persist, merge, remove, etc.) on the BookEntity should cascade to the AuthorEntity.*/
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH}) /*This means that any operation (like persist, merge, remove, etc.) on the BookEntity should cascade to the AuthorEntity.*/
     @JoinColumn(name = "author_id")
-    private AuthorEntity authorEntity;
+    private AuthorEntity author; //Renamed to match BookDto otherwise Configure ModelMapper Explicitly
 }

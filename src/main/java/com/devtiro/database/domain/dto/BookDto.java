@@ -14,6 +14,6 @@ public class BookDto {
 
     private String isbn;
     private String title;
-    private AuthorDto authorDto;
+    private AuthorDto author;  //Renamed to match BookEntity otherwise Configure ModelMapper Explicitly
 
 }

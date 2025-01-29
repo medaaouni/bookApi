@@ -36,7 +36,7 @@ public final class TestDataUtil {
                 .builder()
                 .isbn("2")
                 .title("title")
-                .authorEntity(authorEntity)
+                .author(authorEntity)
                 .build();
     }
 
@@ -45,7 +45,7 @@ public final class TestDataUtil {
                 .builder()
                 .isbn("2")
                 .title("title")
-                .authorDto(authorDto)
+                .author(authorDto)
                 .build();
     }
 }

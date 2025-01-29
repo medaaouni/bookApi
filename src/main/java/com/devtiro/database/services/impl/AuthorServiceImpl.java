@@ -37,6 +37,13 @@ public class AuthorServiceImpl implements AuthorService {
                 .collect(Collectors.toList());
     }
 
+    // other way to do it
+    public List<AuthorEntity> finAllAlternative() {
+        List<AuthorEntity> authorEntities = new ArrayList<>();
+        authorRepository.findAll().forEach(authorEntities::add);
+        return authorEntities;
+    }
+
     @Override
     public Optional<AuthorEntity> findOne(Long id) {
         return authorRepository.findById(id);
@@ -50,18 +57,17 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorEntity patchAuthor(Long id, AuthorEntity authorEntity) {
         authorEntity.setId(id);
-       return authorRepository.findById(id).map(author -> {
-           Optional.ofNullable(authorEntity.getName()).ifPresent(author::setName);
-           Optional.ofNullable(authorEntity.getAge()).ifPresent(author::setAge);
-           return authorRepository.save(author);
-       }).orElseThrow(() -> new RuntimeException("Error"));
+        return authorRepository.findById(id).map(author -> {
+            Optional.ofNullable(authorEntity.getName()).ifPresent(author::setName);
+            Optional.ofNullable(authorEntity.getAge()).ifPresent(author::setAge);
+            return authorRepository.save(author);
+        }).orElseThrow(() -> new RuntimeException("Error"));
     }
 
-    // other way to do it
-    public List<AuthorEntity> finAllAlternative() {
-        List<AuthorEntity> authorEntities = new ArrayList<>();
-        authorRepository.findAll().forEach(authorEntities::add);
-        return authorEntities;
+    @Override
+    public void deleteAuthor(Long id) {
+        authorRepository.deleteById(id);
     }
+
 
 }

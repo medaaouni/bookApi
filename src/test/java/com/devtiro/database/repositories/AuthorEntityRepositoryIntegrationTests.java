@@ -1,16 +1,27 @@
 package com.devtiro.database.repositories;
+
 import com.devtiro.database.domain.entities.AuthorEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+
+/**
+ * you're only testing the repository layer, you can use @DataJpaTest instead of @SpringBootTest.
+ * This annotation is more lightweight and is specifically designed for JPA repository tests.
+ * By default, @DataJpaTest runs tests within a transaction. This means that the Hibernate Session remains open for the duration of the test,
+ * allowing lazy-loaded collections to be accessed without causing a LazyInitializationException.
+ */
+//@SpringBootTest
+@DataJpaTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AuthorEntityRepositoryIntegrationTests {
@@ -23,17 +34,17 @@ public class AuthorEntityRepositoryIntegrationTests {
     }
 
     @Test
-    public void testThatAuthorCanBeCreatedAndRecalled(){
+    public void testThatAuthorCanBeCreatedAndRecalled() {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthorA();
         underTest.save(authorEntity);
-        Optional<AuthorEntity> result =  underTest.findById(authorEntity.getId());
+        Optional<AuthorEntity> result = underTest.findById(authorEntity.getId());
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(authorEntity);
 
     }
 
     @Test
-    public void testThatMultipleAuthorsCanBeCreatedAndRecalled(){
+    public void testThatMultipleAuthorsCanBeCreatedAndRecalled() {
         AuthorEntity authorEntityA = TestDataUtil.createTestAuthorA();
         AuthorEntity authorEntityB = TestDataUtil.createTestAuthorB();
 
@@ -47,7 +58,7 @@ public class AuthorEntityRepositoryIntegrationTests {
     }
 
     @Test
-    public void testThatGetAuthorsWithAgeLessThan(){
+    public void testThatGetAuthorsWithAgeLessThan() {
         AuthorEntity authorEntityA = TestDataUtil.createTestAuthorA();
         AuthorEntity authorEntityB = TestDataUtil.createTestAuthorB();
         underTest.save(authorEntityA);
@@ -59,7 +70,7 @@ public class AuthorEntityRepositoryIntegrationTests {
     }
 
     @Test
-    public void testThatGetAuthorsWithAgeGreaterThan(){
+    public void testThatGetAuthorsWithAgeGreaterThan() {
         AuthorEntity authorEntityA = TestDataUtil.createTestAuthorA();
         AuthorEntity authorEntityB = TestDataUtil.createTestAuthorB();
         underTest.save(authorEntityA);
