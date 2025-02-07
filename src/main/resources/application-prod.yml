@@ -1,7 +1,20 @@
-server:
-  port:8080
 spring:
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+#      change to validate as it’s recommended to use a migration tool like Flyway or Liquibase to manage the database schema.
+      ddl-auto: update
+server:
+  port: 8080
+
+
+#  Choose the profile in different ways
+#  java -jar your-app.jar --spring.profiles.active=prod
+#  docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=dev -e DB_PASSWORD=devpassword your-spring-app
+#  Spring Boot will look for a file named application-dev.properties (or application-dev.yml) in addition to the default application.properties
+#  Spring Boot merges the properties from the default application.properties and the profile-specific application-dev.properties.
+#  If there are overlapping properties, the profile-specific values will take precedence.
+#  -e DB_PASSWORD=devpassword This will override the db.password property in your configuration files, regardless of whether it is defined in application.properties or application-dev.properties.

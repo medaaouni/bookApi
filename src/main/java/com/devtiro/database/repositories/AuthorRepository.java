@@ -13,4 +13,5 @@ public interface AuthorRepository extends CrudRepository<AuthorEntity, Long> {
 
     @Query("SELECT a from AuthorEntity a where a.age>:age")
     Iterable<AuthorEntity> ageShouldBeGreaterThan(@Param("age") int age);
+
 }

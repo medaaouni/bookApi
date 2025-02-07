@@ -8,6 +8,7 @@ import com.devtiro.database.mappers.impl.AuthorMapper;
 import com.devtiro.database.services.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @RestController
 public class AuthorController {
 
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
     Mapper<AuthorEntity, AuthorDto> authorMapper;
 
@@ -25,7 +26,6 @@ public class AuthorController {
         this.authorService = authorService;
         this.authorMapper = authorMapper;
     }
-
 
     @PostMapping(path = "/authors")
     public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto authorDto) {
@@ -36,6 +36,15 @@ public class AuthorController {
         return new ResponseEntity<AuthorDto>(authorMapper.mapTo(savedEntity), HttpStatus.CREATED);
     }
 
+
+    /**
+     *@PreAuthorize permet d'utiliser hasRole(), hasAnyRole(), hasAuthority(), hasAnyAuthority() directement dans le contrôleur.
+     *
+     *@Secured est une alternative à @PreAuthorize, mais elle ne supporte que hasRole() (et non hasAuthority()).
+     *
+     *@RolesAllowed fonctionne comme @Secured, mais elle est standard JEE.
+     */
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(path = "/authors")
     public List<AuthorDto> listAuthors() {
         List<AuthorEntity> authors = authorService.findAll();
